@@ -1,0 +1,22 @@
+id: ohos.native.abi
+status: experimental
+provenance: spec
+verifiedAt: null
+sourceUrls:
+  - https://developer.huawei.com/consumer/en/doc/harmonyos-guides-V5/build-with-ndk-ide-V5
+  - https://developer.huawei.com/consumer/cn/doc/harmonyos-guides-V5/ide-hvigor-build-profile-V5
+supportedTargetAbis:
+  - arm64-v8a
+  - x86_64
+acceptedSourceArchitectures:
+  - arm
+  - arm64
+  - x86
+  - x86_64
+  - c86
+  - unknown
+constraints:
+  - ABI values are specification references pending independent official documentation verification.
+  - sourceArchitecture is not targetABI.
+  - Never infer binary compatibility from matching instruction sets.
+  - Binary-only inputs do not permit native library reuse or binary translation.

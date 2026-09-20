@@ -1,0 +1,20 @@
+{
+  "name": "@hcb/validator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "@hcb/manifest": "0.1.0",
+    "@hcb/registry": "0.1.0",
+    "@hcb/planner": "0.1.0",
+    "json5": "2.2.3"
+  }
+}

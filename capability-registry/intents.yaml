@@ -1,0 +1,20 @@
+id: intents
+status: experimental
+provenance: spec
+verifiedAt: null
+sourceUrls:
+  - https://developer.huawei.com/consumer/cn/doc/doccenter-capabilities/api/intents-arkts-api-insightintent-uiextension
+  - https://developer.huawei.com/consumer/cn/doc/doccenter-capabilities/api/js-apis-app-ability-insightintentcontext
+apiMin: null
+targets:
+  phone: { supported: conditional }
+  tablet: { supported: conditional }
+  pc: { supported: conditional }
+stageModelRequired: true
+permissions: []
+constraints:
+  - Reference URLs and device candidates come from the supplied specification; API facts have not been independently verified.
+  - Only expose an existing callable business action; do not generate or replace business pages.
+requiredChecks:
+  - officialApiVerification
+  - hostBusinessBinding

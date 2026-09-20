@@ -1,0 +1,22 @@
+id: service_collaboration
+status: experimental
+provenance: spec
+verifiedAt: null
+sourceUrls:
+  - https://developer.huawei.com/consumer/cn/sdk/service-collaboration-kit/
+apiMin: null
+targets:
+  phone: { supported: conditional }
+  tablet: { supported: conditional }
+  pc: { supported: conditional }
+stageModelRequired: true
+permissions: []
+constraints:
+  - Reference URLs and device candidates come from the supplied specification; API facts have not been independently verified.
+  - Verify resource-specific device roles, account, network and proximity requirements before adapter implementation.
+  - Remote resource failure must return to the existing local implementation.
+requiredChecks:
+  - officialApiVerification
+  - resourceDeviceRole
+  - crossDevicePrerequisites
+  - originalLocalImplementationBinding

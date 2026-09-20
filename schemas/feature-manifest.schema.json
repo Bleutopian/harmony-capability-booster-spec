@@ -1,0 +1,204 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hcb.local/schemas/feature-manifest.schema.json",
+  "title": "HCB Feature Manifest 0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "application", "features"],
+  "properties": {
+    "schemaVersion": { "const": "0.1" },
+    "application": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "sourcePlatforms"],
+      "properties": {
+        "id": { "$ref": "#/$defs/nonEmptyString" },
+        "sourcePlatforms": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/sourcePlatform" }
+        },
+        "sourceArchitectures": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/sourceArchitecture" }
+        },
+        "sourceAvailability": { "enum": ["source", "binary_only"] }
+      }
+    },
+    "features": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/feature" }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1, "pattern": "\\S" },
+    "sourcePlatform": { "enum": ["android", "ios", "windows", "linux", "macos"] },
+    "sourceArchitecture": { "enum": ["arm", "arm64", "x86", "x86_64", "c86", "unknown"] },
+    "valueType": { "enum": ["string", "number", "integer", "boolean", "object", "array", "null"] },
+    "valueDescriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type"],
+      "properties": {
+        "type": { "$ref": "#/$defs/valueType" },
+        "description": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "inputDescriptor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "type"],
+      "properties": {
+        "name": { "$ref": "#/$defs/nonEmptyString" },
+        "type": { "$ref": "#/$defs/valueType" },
+        "description": { "$ref": "#/$defs/nonEmptyString" },
+        "required": { "type": "boolean" }
+      }
+    },
+    "sourceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["platform", "architecture", "confidence"],
+      "properties": {
+        "platform": { "$ref": "#/$defs/sourcePlatform" },
+        "architecture": { "$ref": "#/$defs/sourceArchitecture" },
+        "language": { "$ref": "#/$defs/nonEmptyString" },
+        "framework": { "$ref": "#/$defs/nonEmptyString" },
+        "buildSystem": { "$ref": "#/$defs/nonEmptyString" },
+        "file": { "$ref": "#/$defs/nonEmptyString" },
+        "binary": { "$ref": "#/$defs/nonEmptyString" },
+        "lineStart": { "type": "integer", "minimum": 1 },
+        "lineEnd": { "type": "integer", "minimum": 1 },
+        "evidence": { "$ref": "#/$defs/nonEmptyString" },
+        "evidenceKind": { "enum": ["ast", "manual", "import_or_string", "metadata", "build", "symbol"] },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "oneOf": [
+        { "properties": { "file": { "$ref": "#/$defs/nonEmptyString" } }, "required": ["file"] },
+        { "properties": { "binary": { "$ref": "#/$defs/nonEmptyString" } }, "required": ["binary"] }
+      ],
+      "dependentRequired": {
+        "lineStart": ["lineEnd", "file"],
+        "lineEnd": ["lineStart", "file"]
+      }
+    },
+    "review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": { "enum": ["confirmed", "pending"] },
+        "confirmedBy": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "feature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "title", "contract"],
+      "properties": {
+        "id": { "$ref": "#/$defs/nonEmptyString" },
+        "kind": { "enum": ["ACTION", "STATE", "RESOURCE"] },
+        "title": { "$ref": "#/$defs/nonEmptyString" },
+        "sourceRefs": { "type": "array", "items": { "$ref": "#/$defs/sourceRef" } },
+        "review": { "$ref": "#/$defs/review" },
+        "contract": { "type": "object" },
+        "hints": { "type": "object" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "kind": { "const": "ACTION" } }, "required": ["kind"] },
+          "then": {
+            "properties": {
+              "contract": { "$ref": "#/$defs/actionContract" },
+              "hints": { "$ref": "#/$defs/actionHints" }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "STATE" } }, "required": ["kind"] },
+          "then": {
+            "properties": {
+              "contract": { "$ref": "#/$defs/stateContract" },
+              "hints": { "$ref": "#/$defs/stateHints" }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "kind": { "const": "RESOURCE" } }, "required": ["kind"] },
+          "then": {
+            "properties": {
+              "contract": { "$ref": "#/$defs/resourceContract" },
+              "hints": { "$ref": "#/$defs/resourceHints" }
+            }
+          }
+        }
+      ]
+    },
+    "actionContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["inputs", "output"],
+      "properties": {
+        "inputs": { "type": "array", "items": { "$ref": "#/$defs/inputDescriptor" } },
+        "output": { "$ref": "#/$defs/valueDescriptor" },
+        "sideEffect": { "type": "boolean" }
+      }
+    },
+    "actionHints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "userInvokable": { "type": "boolean" },
+        "existingImplementation": { "type": "boolean" },
+        "callable": { "type": "boolean" },
+        "visualOnly": { "type": "boolean" }
+      }
+    },
+    "stateContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entityIdField", "states", "terminalStates"],
+      "properties": {
+        "entityIdField": { "$ref": "#/$defs/nonEmptyString" },
+        "states": { "type": "array", "minItems": 2, "uniqueItems": true, "items": { "$ref": "#/$defs/nonEmptyString" } },
+        "terminalStates": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/nonEmptyString" } },
+        "durationHintMinutes": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "stateHints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "userAttention": { "enum": ["low", "medium", "high"] },
+        "realtime": { "type": "boolean" },
+        "externallyUpdated": { "type": "boolean" },
+        "lifecycle": { "enum": ["ongoing", "static", "instant"] },
+        "startDefined": { "type": "boolean" },
+        "endDefined": { "type": "boolean" },
+        "eligibilityConfirmed": { "type": "boolean" }
+      }
+    },
+    "resourceContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["resourceType", "acceptedOutputs"],
+      "properties": {
+        "resourceType": { "enum": ["camera_capture", "document_scan", "gallery_pick"] },
+        "acceptedOutputs": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "enum": ["image", "pdf"] } },
+        "maxCount": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "resourceHints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "existingLocalImplementation": { "type": "boolean" },
+        "allowCrossDevice": { "type": "boolean" },
+        "fallback": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    }
+  }
+}

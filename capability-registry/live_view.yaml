@@ -1,0 +1,23 @@
+id: live_view
+status: experimental
+provenance: spec
+verifiedAt: null
+sourceUrls:
+  - https://developer.huawei.com/consumer/cn/doc/harmonyos-guides-V13/liveview-introduction-V13
+  - https://developer.huawei.com/consumer/cn/doc/HarmonyOS-Guides/liveview-update-by-push
+apiMin: null
+targets:
+  phone: { supported: conditional }
+  tablet: { supported: conditional }
+  pc: { supported: false }
+stageModelRequired: true
+permissions: []
+constraints:
+  - Reference URLs and device candidates come from the supplied specification; API facts have not been independently verified.
+  - HCB V0.1 excludes PC Live View plans.
+  - Require an ongoing dynamic business state with an explicit start and end and continuing user attention.
+requiredChecks:
+  - officialApiVerification
+  - liveViewEligibility
+  - liveViewEntitlement
+  - hostBusinessBinding

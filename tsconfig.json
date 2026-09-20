@@ -1,0 +1,11 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/hcb-manifest" },
+    { "path": "packages/hcb-registry" },
+    { "path": "packages/hcb-planner" },
+    { "path": "packages/hcb-generator" },
+    { "path": "packages/hcb-validator" },
+    { "path": "packages/hcb-cli" }
+  ]
+}

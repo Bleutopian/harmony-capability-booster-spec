@@ -1,0 +1,145 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`review artifact generation > produces deterministic review documents with ownership, without platform code 1`] = `
+[
+  {
+    "document": {
+      "_hcb": {
+        "owner": "HCB_GENERATED",
+        "sha256": "f955e380362a7fd711a6340825f563791dcafe93e6e90d1ad8dc0d3660e6adec",
+        "version": "0.1",
+      },
+      "artifactKind": "enhancement-plan",
+      "plan": {
+        "applicationId": "com.example.desktopservice",
+        "items": [
+          {
+            "capability": "intents",
+            "decision": "conditional",
+            "featureId": "queryOrder",
+            "generatedArtifacts": [],
+            "reasons": [
+              "Support for target device pc needs official verification.",
+              "The minimum supported API version has not been verified.",
+              "The capability is experimental and cannot enter adapter generation.",
+              "Registry requires officialApiVerification before implementation.",
+              "Registry requires hostBusinessBinding before implementation.",
+              "Confirm ACTION existingImplementation before creating an intent binding.",
+              "Confirm ACTION callable before creating an intent binding.",
+              "ACTION has a structured input/output contract for an existing host binding.",
+            ],
+            "requiredChecks": [
+              "deviceSupport.pc",
+              "minimumApiVersion",
+              "officialApiVerification",
+              "hostBusinessBinding",
+              "action.existingImplementation",
+              "action.callable",
+            ],
+          },
+          {
+            "capability": "service_collaboration",
+            "decision": "conditional",
+            "featureId": "scanDocument",
+            "generatedArtifacts": [],
+            "reasons": [
+              "Support for target device pc needs official verification.",
+              "The minimum supported API version has not been verified.",
+              "The capability is experimental and cannot enter adapter generation.",
+              "Registry requires officialApiVerification before implementation.",
+              "Registry requires resourceDeviceRole before implementation.",
+              "Registry requires crossDevicePrerequisites before implementation.",
+              "Registry requires originalLocalImplementationBinding before implementation.",
+              "Bind the existing local implementation as the fallback before implementation.",
+              "RESOURCE requests the supported document_scan operation.",
+            ],
+            "requiredChecks": [
+              "deviceSupport.pc",
+              "minimumApiVersion",
+              "officialApiVerification",
+              "resourceDeviceRole",
+              "crossDevicePrerequisites",
+              "originalLocalImplementationBinding",
+            ],
+          },
+        ],
+        "planVersion": "0.1",
+        "target": {
+          "apiVersion": 24,
+          "devices": [
+            "pc",
+          ],
+          "stageModel": true,
+        },
+      },
+    },
+    "path": ".hcb/generated/enhancement-plan.json",
+  },
+  {
+    "document": {
+      "_hcb": {
+        "owner": "HCB_GENERATED",
+        "sha256": "fac2443a0d5bb41c7151d64ef10f1d06a2b83ea93470dd15e83490ddcf84ae65",
+        "version": "0.1",
+      },
+      "applicationId": "com.example.desktopservice",
+      "artifactKind": "binding-contracts",
+      "bindings": [
+        {
+          "bindingStatus": "unbound",
+          "capability": "intents",
+          "contract": {
+            "inputs": [
+              {
+                "name": "orderId",
+                "required": true,
+                "type": "string",
+              },
+            ],
+            "output": {
+              "type": "object",
+            },
+          },
+          "decision": "conditional",
+          "featureId": "queryOrder",
+          "kind": "ACTION",
+          "requiredBinding": "execute",
+          "requiredChecks": [
+            "deviceSupport.pc",
+            "minimumApiVersion",
+            "officialApiVerification",
+            "hostBusinessBinding",
+            "action.existingImplementation",
+            "action.callable",
+          ],
+        },
+        {
+          "bindingStatus": "unbound",
+          "capability": "service_collaboration",
+          "contract": {
+            "acceptedOutputs": [
+              "image",
+              "pdf",
+            ],
+            "maxCount": 10,
+            "resourceType": "document_scan",
+          },
+          "decision": "conditional",
+          "featureId": "scanDocument",
+          "kind": "RESOURCE",
+          "requiredBinding": "requestLocal",
+          "requiredChecks": [
+            "deviceSupport.pc",
+            "minimumApiVersion",
+            "officialApiVerification",
+            "resourceDeviceRole",
+            "crossDevicePrerequisites",
+            "originalLocalImplementationBinding",
+          ],
+        },
+      ],
+    },
+    "path": ".hcb/generated/binding-contracts.json",
+  },
+]
+`;

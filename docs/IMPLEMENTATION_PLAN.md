@@ -9,12 +9,12 @@ the original host and archive in an initial baseline commit.
 | Milestone | Status | Acceptance |
 | --- | --- | --- |
 | Baseline | Complete | Original host/archive committed; remote configured |
-| Architecture | In progress | Package boundaries, dependency direction, ADR and CI defined |
-| M0 workspace | In progress | Reproducible install, strict build, lint and tests |
-| M1 Manifest | In progress | Strict contracts, source metadata, examples and rejection tests |
-| M2 CLI | In progress | init, manifest validate, plan, apply --dry-run, validate |
-| Initial planner | In progress | Reasons, eligibility/fallback rules, experimental registry gates |
-| Verification | Pending | Integration, preview repeatability, coverage and host integrity |
+| Architecture | Complete | Six package boundaries, dependency direction, ADR and CI defined |
+| M0 workspace | Complete | npm lockfile, strict project references, lint and Windows/Linux CI |
+| M1 Manifest | Complete | Strict contracts, source metadata, examples and rejection tests |
+| M2 CLI | Complete | init, manifest validate, plan, apply --dry-run, validate |
+| Initial planner | Complete | Reasons, eligibility/fallback rules, experimental registry gates |
+| Verification | Complete | Clean install, 135 tests, per-file coverage gates and host integrity checked |
 
 ## Next Increments
 
@@ -28,5 +28,24 @@ the original host and archive in an initial baseline commit.
 
 ## Verification Record
 
-Pending implementation checks. No real API, host compilation, cross-device or
-productivity acceptance is claimed by the foundation milestone.
+Verified on Windows with Node.js 24.14.1 and npm 11.11.0:
+
+- `npm ci`: reproducible install; dependency audit reported zero vulnerabilities.
+- `npm run check`: TypeScript build/test type checks, ESLint and 135 tests passed.
+- Coverage: 98.97% statements, 94.95% branches, 97.64% functions, 99.31% lines.
+- Every measured implementation source file meets 80% statement/branch/function/line coverage thresholds.
+- Generator snapshots, repeated dry-run equality, ownership conflicts, modified
+  artifacts, redirected paths and explicit-undefined hash stability are tested.
+- Public Planner inputs cannot bypass Stage or registry evidence requirements.
+- CLI integration covers initialization, refusal to overwrite, invalid inputs,
+  conditional/rejected plans, read-only previews and paths containing spaces.
+- The actual supplied Stage host passes static inspection with explicit API
+  verification warnings. No original host source/configuration differs from baseline.
+- A Windows/Linux GitHub Actions workflow is configured; hosted CI results are
+  separate from these local verification results.
+
+Against `spec/acceptance/ACCEPTANCE_CHECKLIST.md`, this increment delivers strict
+Manifest checks, initial Planner rules, review-document dry-run behavior and static
+Validator checks. It does not complete adapter/Runtime acceptance, real apply
+idempotency, rollback/detach, source analyzers, device tests or productivity POCs.
+Compilation reports `skipped`: there are no generated platform artifacts yet.

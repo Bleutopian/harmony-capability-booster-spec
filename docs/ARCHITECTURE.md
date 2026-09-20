@@ -27,8 +27,8 @@ flowchart LR
 | `@hcb/manifest` | Strict schema, feature types, YAML/JSON loading, semantic checks | AJV, YAML |
 | `@hcb/registry` | Explicit device/API evidence and target/toolchain validation | Manifest, YAML |
 | `@hcb/planner` | Explainable recommend/conditional/reject decisions | Manifest, Registry |
-| `@hcb/generator` | Deterministic HCB-owned artifact previews and unified diffs | Manifest, Planner |
-| `@hcb/validator` | Manifest, target, host and generated ownership checks | Manifest, Registry, Planner, Generator |
+| `@hcb/generator` | Deterministic artifact previews, ownership checks and unified diffs | Manifest, Planner |
+| `@hcb/validator` | Manifest, target, plan and host metadata checks | Manifest, Registry, Planner |
 | `@hcb/cli` | Commands, file IO orchestration, JSON output and exit codes | Public package APIs |
 
 Dependencies flow in the direction shown. Analyzers and Runtime HAR are future
