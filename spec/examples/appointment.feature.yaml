@@ -1,0 +1,44 @@
+schemaVersion: "0.1"
+application:
+  id: com.example.civicservice
+  sourcePlatforms: [android, ios]
+  sourceArchitectures: [arm64]
+  sourceAvailability: source
+features:
+  - id: queryAppointment
+    kind: ACTION
+    title: 查询预约
+    contract:
+      inputs:
+        - name: appointmentId
+          type: string
+          required: true
+      output:
+        type: object
+      sideEffect: false
+    hints:
+      userInvokable: true
+
+  - id: appointmentProgress
+    kind: STATE
+    title: 服务进度
+    contract:
+      entityIdField: appointmentId
+      states: [BOOKED, WAITING, CALLED, PROCESSING, COMPLETED]
+      terminalStates: [COMPLETED]
+      durationHintMinutes: 120
+    hints:
+      userAttention: high
+      realtime: true
+      externallyUpdated: true
+
+  - id: uploadDocument
+    kind: RESOURCE
+    title: 上传材料
+    contract:
+      resourceType: document_scan
+      acceptedOutputs: [image, pdf]
+      maxCount: 5
+    hints:
+      existingLocalImplementation: true
+      allowCrossDevice: true

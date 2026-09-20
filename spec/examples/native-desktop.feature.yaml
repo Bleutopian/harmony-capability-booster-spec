@@ -1,0 +1,51 @@
+schemaVersion: "0.1"
+application:
+  id: com.example.desktopservice
+  sourcePlatforms: [windows, linux]
+  sourceArchitectures: [x86_64, c86]
+  sourceAvailability: source
+features:
+  - id: queryOrder
+    kind: ACTION
+    title: 查询订单
+    sourceRefs:
+      - platform: linux
+        architecture: c86
+        language: cpp
+        framework: qt
+        buildSystem: cmake
+        file: src/order/OrderService.cpp
+        lineStart: 44
+        lineEnd: 71
+        evidence: "queryOrder(orderId) returns structured OrderStatus"
+        confidence: 0.94
+    contract:
+      inputs:
+        - name: orderId
+          type: string
+          required: true
+      output:
+        type: object
+    hints:
+      userInvokable: true
+
+  - id: scanDocument
+    kind: RESOURCE
+    title: 扫描材料
+    sourceRefs:
+      - platform: windows
+        architecture: x86_64
+        language: cpp
+        framework: qt
+        file: src/document/DocumentService.cpp
+        lineStart: 80
+        lineEnd: 126
+        evidence: "existing scanner/image acquisition flow"
+        confidence: 0.91
+    contract:
+      resourceType: document_scan
+      acceptedOutputs: [image, pdf]
+      maxCount: 10
+    hints:
+      existingLocalImplementation: true
+      allowCrossDevice: true

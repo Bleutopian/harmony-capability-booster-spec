@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/hcb/feature-manifest.schema.json",
+  "title": "HCB Feature Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "application",
+    "features"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "0.1"
+    },
+    "application": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "sourcePlatforms"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourcePlatforms": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "android",
+              "ios",
+              "windows",
+              "linux",
+              "macos"
+            ]
+          }
+        },
+        "sourceArchitectures": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "arm",
+              "arm64",
+              "x86",
+              "x86_64",
+              "c86",
+              "unknown"
+            ]
+          }
+        },
+        "sourceAvailability": {
+          "enum": [
+            "source",
+            "binary_only"
+          ]
+        }
+      }
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "kind",
+          "title",
+          "contract"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "ACTION",
+              "STATE",
+              "RESOURCE"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceRefs": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          },
+          "contract": {
+            "type": "object"
+          },
+          "hints": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  }
+}
